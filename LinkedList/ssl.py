@@ -13,102 +13,124 @@
 
 
 
-class ListNode:
+class Node:
     def __init__(self,value):
         self.data = value
-        self.next_node = None
+        self.next = None
         
         
 class LinkedList:
     def __init__(self):
-        self.first = None
+        self.head = None
         
-        
-    #  Method to check is linked list is empty or not
     def is_list_empty(self):
-        return self.first is None
+        """ Check if linked list is empty or not """
+        return self.head is None
     
-    # method to traverse through linked list
-    
-    def show_all_elements(self):
-        """ Show all elements in the list """
-        current_element = self.first
+    def traverse_through_all(self):
+        """ Display all items inside list """
+        current_item = self.head
         values = []
         
-        while current_element:
-            values.append(str(current_element.data))
-            current_element = current_element.next_node
-
+        while current_item:
+            values.append(str(current_item.data))
+            current_item = current_item.next
+            
+            
+        print(" -> ".join(values))
         
-        print(" → ".join(values))
+    def insert_at_start(self,value):
+        """ Insert New Node at starting Position """
+        new_node = Node(value)
+        new_node.next = self.head
+        self.head = new_node
         
+    def insert_at_end(self,value):
+        """" Insert element at the end of linked list """
+        new_node = Node(value)
         
-        
-    # Inserting elements in the list, it can be at start,end or middle 
-    
-    def add_to_front(self,value):
-        """ Add a new element at the start of the list """
-        fresh_node = ListNode(value)
-        fresh_node.next_node = self.first
-        self.first = fresh_node
-        
-    def add_to_end(self,value):
-        """ Add element at the end of list """
-        fresh_node = ListNode(value)
-        
-        # Handle if list is empty
+        # Handle empty list case first
         if self.is_list_empty():
-            self.first = fresh_node
-            return
-        
-        # Navigate to the last element
-        current_element = self.first
-        while current_element.next_node:
-            current_element = current_element.next_node
-            
-        # connect new node at the end
-        current_element.next_node = fresh_node
-        
-    def add_after_value(self,target_value,new_value):
-        " Add a new element after node containing the target value "
-        
-        # Locate the target node
-        current_node = self.first
-        
-        while current_node and current_node.data != target_value:
-            current_node = current_node.next_node
-            
-        # Handle case where target was not found
-        
-        if current_node is None:
-            print(f"{target_value} is not found!")
+            self.head = new_node
             return 
         
-        # create and insert new node
-        new_node = ListNode(new_value)
-        new_node.next_node = current_node.next_node
-        current_node.next_node = new_node
+        current_element = self.head
         
+        while current_element.next:
+            current_element = current_element.next
+            
+        current_element.next = new_node
+        
+    def insert_at_middle(self,target_value,new_value):
+        """ Add a new element after node containing the target value """
+        current_item = self.head
+        
+        if self.is_list_empty():
+            return
+        
+        while current_item and current_item.data != target_value:
+            current_item = current_item.next
+            
+        if current_item is None:
+            print(f"{target_value} is not found! ")
+            return
+        
+        new_node = Node(new_value)
+        new_node.next = current_item.next
+        current_item.next = new_node
+        
+        
+    def remove_value(self,target_value):
+        """ Remove the target node value """
+        
+        if self.is_list_empty():
+            print(f"{target_value} can not be deleted as list is empty")
+            return
+        
+        if self.head.data == target_value:
+            self.head = self.head.next
+            return
+        
+        current_item = self.head
+        
+        while current_item.next and current_item.next.data != target_value:
+            current_item = current_item.next
+            
+        if current_item is None:
+            print(f"{target_value} is not found! ")
+            return
+        
+        current_item.next = current_item.next.next
+        
+        
+    def search_item(self,target_value):
+        """ Search Item through the Linked List """
+        current_item = self.head
+        count = 0
+        while current_item and current_item.data != target_value:
+            current_item = current_item.next
+            count += 1
+            
+        if current_item is None:
+            print(f"{target_value} is not found! ")
+            return
+        
+        print(f"{target_value} found at position: {count}")
+        
+        
+            
     
-
-
-ll = LinkedList()
-
-
-#  manually inserting for now
-
-n1 = ListNode(25)
-n2 = ListNode(35)
-n3 = ListNode(45)
-n4 = ListNode(55)
-n5 = ListNode(65)
-
-
-ll.first = n1  # linked list now starts at n1
-n1.next_node = n2
-n2.next_node = n3
-n3.next_node = n4
-n4.next_node = n5
-
-
-ll.show_all_elements()
+     
+l1 = LinkedList()
+l1.insert_at_start(20)
+l1.insert_at_start(10)
+l1.insert_at_end(30)
+l1.insert_at_end(40)
+l1.insert_at_middle(30,55)
+l1.insert_at_middle(55,65)  
+l1.insert_at_middle(40,73)
+l1.remove_value(55)  
+l1.remove_value(65)  
+l1.remove_value(73)  
+l1.traverse_through_all()
+l1.search_item(95)

@@ -3,48 +3,48 @@ class Node:
         self.data = value
         self.next = None
         
-
+        
 class LinkedList:
-    def __init__(self,value=None):
-        new_node = Node(value) if value else None
-        self.head = new_node if new_node else None
-        self.tail = new_node if new_node else None
+    def __init__(self,value):
+        new_node = Node(value)
+        self.head = new_node
+        self.tail = new_node
+        self.length = 1
         
     def is_list_empty(self):
-        return self.head is None and self.tail is None
+        return self.head is None
     
-    def traverse_through_list(self):
-        """ traversing through linked list """
-        current_node = self.head
-        values = []
+    
+    def traverse_through_all(self):
+        """ traverse through list """
+        current_item = self.head
+        elements = []
         
-        while current_node is not None:
-            values.append(str(current_node.data))
-            current_node = current_node.next
+        while current_item:
+            elements.append(str(current_item.data))
+            current_item = current_item.next
             
-        print(" -> ".join(values))
+        print(" -> " .join(elements))
+        
+        
     
-    
-    def append_item(self,value):
-        """ Append New Node at the end of linked list """
+    def append_node(self,value):
+        """ append item at the end """
         new_node = Node(value)
+        
         if self.is_list_empty():
             self.head = new_node
             self.tail = new_node
-            return
             
-        current_node = self.head
-        
-        while current_node.next:
-            current_node = current_node.next
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
             
-            
-        current_node.next = new_node
-        self.tail = new_node
+        self.length += 1
         
         
-first_linked_list = LinkedList(25)
-first_linked_list.append_item(35)
-first_linked_list.append_item(45)
-first_linked_list.append_item(55)
-first_linked_list.traverse_through_list()
+l1 = LinkedList(15)
+# l1.append_node(35)
+# l1.append_node(45)
+# l1.append_node(55)
+l1.traverse_through_all()
